@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# AI workflow artifacts — never publish
+CLAUDE.md
+docs/superpowers/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
