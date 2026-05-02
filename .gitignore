@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+coverage
 
 # AI workflow artifacts — never publish
 CLAUDE.md
