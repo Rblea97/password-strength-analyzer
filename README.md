@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# Password Strength Analyzer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Real-time password strength analyzer — estimates entropy in bits and gives actionable feedback. Built as a React 19 + TypeScript portfolio project exercising a full CI/CD lifecycle.
 
-Currently, two official plugins are available:
+**[Live Demo](https://YOUR_GITHUB_USERNAME.github.io/password-strength-analyzer/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![CI](https://github.com/YOUR_GITHUB_USERNAME/password-strength-analyzer/actions/workflows/ci.yml/badge.svg)
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Tool | Version | Why |
+|---|---|---|
+| React 19 | 19.x | Latest stable; `useId`, `useState` — compiler-ready, no manual memoization |
+| TypeScript | 6.x | `strict` + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` |
+| Vite | 8.x | Sub-second HMR, native ESM, zero config |
+| Vitest | 4.x | Native Vite integration, inline config, no test runner overhead |
+| CSS | Native | `@layer`, `oklch()`, native nesting — no preprocessor or CSS-in-JS |
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Real-time entropy calculation (bits) as you type
+- 5-segment visual strength meter with smooth color transitions
+- Actionable feedback for every missing character class
+- Show/hide password toggle
+- Fully accessible: `role="meter"`, `aria-live` feedback list, `useId()` label binding
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open `http://localhost:5173/password-strength-analyzer/`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Challenges + Solutions
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Overflow-safe entropy:** `Math.log2(charsetSize ** length)` overflows to `Infinity` for long passwords. Fixed by rewriting as `length * Math.log2(charsetSize)` — mathematically equivalent and numerically stable for any input length.
+
+**CSS color progression without JS:** Strength level colors (red → green) are driven entirely by a `--strength-score` CSS custom property set inline on the meter element. Attribute selectors (`[style*='--strength-score: N']`) bind each score to its `oklch()` color token — zero JS needed for color transitions, no runtime style injection.
+
+## Architecture
+
+Pure logic/UI separation: `src/lib/strength.ts` is a dependency-free TypeScript module with zero React coupling — the entire scoring and feedback algorithm lives there and is unit-tested in isolation. React is a thin display layer. See [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+## License
+
+MIT
