@@ -2,9 +2,9 @@
 
 Real-time password strength analyzer — estimates entropy in bits and gives actionable feedback. Built as a React 19 + TypeScript portfolio project exercising a full CI/CD lifecycle.
 
-**[Live Demo](https://YOUR_GITHUB_USERNAME.github.io/password-strength-analyzer/)**
+**[Live Demo](https://Rblea97.github.io/password-strength-analyzer/)**
 
-![CI](https://github.com/YOUR_GITHUB_USERNAME/password-strength-analyzer/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/Rblea97/password-strength-analyzer/actions/workflows/ci.yml/badge.svg)
 
 ## Tech Stack
 
